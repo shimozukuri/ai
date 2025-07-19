@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Анализ столов в кафе</title>
+</head>
+<body>
+    <h2>Детекция столов в кафе (YOLOv8)</h2>
+    <input type="file" id="imageInput">
+    <button onclick="processImage()">Запустить обработку</button>
+    <div>
+        <img id="resultImage" src="" style="max-width:400px;margin-top:20px;">
+    </div>
+    <div id="stats" style="font-size:18px;margin-top:10px;"></div>
+<script>
+async function processImage() {
+    const file = document.getElementById('imageInput').files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    const response = await fetch('/process', { method: 'POST', body: formData });
+    const data = await response.json();
+    document.getElementById('resultImage').src = 'static/result.jpg?' + Date.now();
+    document.getElementById('stats').innerText = `Обнаружено столов: ${data.count}`;
+}
+</script>
+</body>
+</html>
